@@ -9,4 +9,6 @@ Flask
 mlflow
 dvc
 tensorflow
+python-box
+ensure
 -e .
