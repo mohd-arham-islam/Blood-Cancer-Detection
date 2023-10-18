@@ -12,10 +12,10 @@ load_dotenv()
 @dataclass()
 class DataIngestionConfig:
     # Defining the path of images
-    benignImagesPath = os.path.join('artifacts', 'Benign')
-    earlyImagesPath = os.path.join('artifacts', 'Early')
-    preImagesPath = os.path.join('artifacts', 'Pre')
-    ProImagesPath = os.path.join('artifacts', 'Pro')
+    benignImagesPath = os.path.join('artifacts', 'images', 'Benign')
+    earlyImagesPath = os.path.join('artifacts', 'images', 'Early')
+    preImagesPath = os.path.join('artifacts', 'images', 'Pre')
+    ProImagesPath = os.path.join('artifacts', 'images', 'Pro')
 
     AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -57,7 +57,7 @@ class DataIngestion:
                 folder = dir[0]
                 file = dir[1]
 
-                downloadPath = os.path.join('artifacts', folder, file)
+                downloadPath = os.path.join('artifacts', 'images', folder, file)
                 s3.Bucket('bloodcancerimages').download_file(
                 Key=key, 
                 Filename=downloadPath
