@@ -35,6 +35,12 @@ MANIFEST
 # Artifacts folder
 artifacts
 
+# Model logs
+Model logs
+
+# Research folder
+research
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
