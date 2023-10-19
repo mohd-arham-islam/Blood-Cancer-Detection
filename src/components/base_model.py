@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import tensorflow as tf
 from tensorflow import keras
 from keras.models import Model
-from keras.layers import Input, Dense, GlobalMaxPooling2D, Dropout
+from keras.layers import Input, Dense, GlobalMaxPooling2D, Dropout, Rescaling, Resizing
 from keras.applications import VGG16
 
 from src import logger, customException
@@ -20,7 +20,8 @@ class BaseModel:
     
     def createModel(self):
         try:
-            inputLayer = Input(shape=(224,224,3))
+            inputLayer = Resizing(height=224, width=224)(Input(shape=(224,224,3)))
+            inputLayer = Rescaling(1./255)(inputLayer)
 
             vgg = VGG16(include_top=False, weights='imagenet')
             for layer in vgg.layers:

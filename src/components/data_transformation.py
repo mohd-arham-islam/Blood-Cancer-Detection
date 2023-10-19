@@ -41,6 +41,8 @@ class DataTransformation:
             val = data.skip(trainSize).take(valSize)
             test = data.skip(trainSize+valSize).take(testSize)
 
+            logger.info('Splitted the dataset successfully')
+
             return (
                 train,
                 val,
@@ -49,3 +51,4 @@ class DataTransformation:
         
         except Exception as e:
             raise customException(e, sys)
+    
