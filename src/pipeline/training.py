@@ -42,12 +42,10 @@ class ModelTrainer:
             )
 
             tensorboardCallback = tf.keras.callbacks.TensorBoard(log_dir=logDir)
-            hist = model.fit(train, epochs=20, validation_data=val, callbacks=[tensorboardCallback])
+            hist = model.fit(train, epochs=self.trainerConfig.EPOCHS, validation_data=val, callbacks=[tensorboardCallback])
 
-            saveObject(
-                filePath=self.trainerConfig.trainedModelPath, 
-                object=model
-                )
+            # Saving the model as .h5 to ensure it can be reused across different runtimes.
+            model.save('artifacts/model.h5')
             logger.info('Saved Trained Model')
         
         except Exception as e:
