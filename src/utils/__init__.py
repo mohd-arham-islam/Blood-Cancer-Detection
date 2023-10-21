@@ -52,10 +52,24 @@ def getMetrics(y_true, y_pred):
         f1 = f1_score(y_true, y_pred, average='macro')
 
         return {
-            'Accuracy': round(accuracy, 2),
-            'Precision': round(precision, 2),
-            'Recall': round(recall, 2),
-            'F1 Score': round(f1, 2)
+            'Accuracy': accuracy,
+            'Precision': precision,
+            'Recall': recall,
+            'F1 Score': f1
         }
+    except Exception as e:
+        raise customException(e, sys)
+
+def getBatchSize(data):
+    try:
+        totalSize = len(data)
+        trainSize = int(totalSize*0.7)
+        valSize = int(totalSize*0.2)
+        testSize = totalSize - trainSize - valSize
+        return (
+            trainSize,
+            valSize,
+            testSize
+        )
     except Exception as e:
         raise customException(e, sys)

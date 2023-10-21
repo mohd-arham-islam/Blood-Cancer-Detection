@@ -5,24 +5,24 @@ import os
 import sys
 from src import logger, customException
 from dataclasses import dataclass
+from src.utils import getBatchSize
 
 @dataclass()
 class DataTransformationConfig:
     dataDir = os.path.join('artifacts', 'images')
     imageSize = (224,224)
-    batchSize = 16
+
 
 class DataTransformation:
     def __init__(self):
         self.transformationConfig = DataTransformationConfig()
     
-    def initiateTransformation(self):
+    def initiateTransformation(self, batchSize):
         try:
             logger.info('Splitting the data into training, validation, and test sets')
 
             dataDir = self.transformationConfig.dataDir
             imageSize = self.transformationConfig.imageSize
-            batchSize = self.transformationConfig.batchSize
 
             data = image_dataset_from_directory(
                 dataDir,
@@ -32,10 +32,7 @@ class DataTransformation:
 
             logger.info('Successfully read images from directory.')
 
-            totalBatch = len(data)
-            trainSize = int(totalBatch*0.7)+1
-            valSize = int(totalBatch*0.2)+1
-            testSize = int(totalBatch*0.1)
+            trainSize, testSize, valSize = getBatchSize(data)
 
             train = data.take(trainSize)
             val = data.skip(trainSize).take(valSize)

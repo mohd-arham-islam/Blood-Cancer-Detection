@@ -11,7 +11,6 @@ from src.utils import getPredictions, getMetrics
 class ModelTrainerConfig:
     trainedModelPath = os.path.join('artifacts', 'trained_model.pkl')
     baseModelPath = os.path.join('artifacts', 'base_model.pkl')
-    EPOCHS = 20
     modelLogDir = os.path.join('Model logs')
 
     optimizer = 'adam'
@@ -22,11 +21,11 @@ class ModelTrainer:
     def __init__(self):
         self.trainerConfig = ModelTrainerConfig()
     
-    def initiateTraining(self):
+    def initiateTraining(self, batchSize, EPOCHS):
         try:
             # Loading the splitted data
             transformer = DataTransformation()
-            train, val, test = transformer.initiateTransformation()
+            train, val, test = transformer.initiateTransformation(batchSize)
             logger.info('Loaded the dataset')
 
             # Loading the model
@@ -43,14 +42,15 @@ class ModelTrainer:
             )
 
             tensorboardCallback = tf.keras.callbacks.TensorBoard(log_dir=logDir)
-            hist = model.fit(train, epochs=self.trainerConfig.EPOCHS, validation_data=val, callbacks=[tensorboardCallback])
+            hist = model.fit(train, epochs=EPOCHS, batch_size=batchSize, validation_data=val, callbacks=[tensorboardCallback])
 
             # Saving the model as .h5 to ensure it can be reused across different runtimes.
             model.save('artifacts/trained_model.h5')
-            logger.info('Saved Trained Model')
+            # logger.info('Saved Trained Model')
 
             y_true, y_pred = getPredictions(model, test)
-            accuracy, precision, recall, f1 = getMetrics(y_true, y_pred)
+            metrics = getMetrics(y_true, y_pred)
+            accuracy, precision, recall, f1 = metrics['Accuracy'], metrics['Precision'], metrics['Recall'], metrics['F1 Score']
             logger.info(f'''The model gives the following metrics on the test dataset: 
                         Accuracy: {accuracy}
                         Precision: {precision}
@@ -63,4 +63,4 @@ class ModelTrainer:
 
 if __name__=="__main__":
     trainer = ModelTrainer()
-    trainer.initiateTraining()
+    trainer.initiateTraining(batchSize=16, EPOCHS=20)
