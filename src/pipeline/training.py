@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import os
 from src.components.data_transformation import DataTransformation
 import sys
+from src.utils import getPredictions, getMetrics
 
 @dataclass()
 class ModelTrainerConfig:
@@ -45,8 +46,17 @@ class ModelTrainer:
             hist = model.fit(train, epochs=self.trainerConfig.EPOCHS, validation_data=val, callbacks=[tensorboardCallback])
 
             # Saving the model as .h5 to ensure it can be reused across different runtimes.
-            model.save('artifacts/model.h5')
+            model.save('artifacts/trained_model.h5')
             logger.info('Saved Trained Model')
+
+            y_true, y_pred = getPredictions(model, test)
+            accuracy, precision, recall, f1 = getMetrics(y_true, y_pred)
+            logger.info(f'''The model gives the following metrics on the test dataset: 
+                        Accuracy: {accuracy}
+                        Precision: {precision}
+                        Recall: {recall}
+                        F1 Score: {f1}
+                        ''')
         
         except Exception as e:
             raise customException(e, sys)
