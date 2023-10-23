@@ -23,19 +23,19 @@ def loadObject(filePath):
     except Exception as e:
         raise customException(e, sys)
     
-def getPredictions(model, test):
+def getPredictions(model, test, batchSize):
     try:
         y_true, y_pred = [], []
         for i in range(len(test)):
             arr = test.as_numpy_iterator().next()
             y_true.append(list(arr[1]))
             prediction = model.predict(arr[0])
-            for j in range(16):
+            for j in range(batchSize):
                 y_pred.append(np.argmax(prediction[j]))
         
         y_pred = np.array(y_pred)
         y_true = np.array(y_true)
-        y_true = y_true.reshape(320, )
+        y_true = y_true.reshape(y_pred.shape)
 
         return (
             y_true,

@@ -13,7 +13,6 @@ class ModelTrainerConfig:
     baseModelPath = os.path.join('artifacts', 'base_model.pkl')
     modelLogDir = os.path.join('Model logs')
 
-    optimizer = 'adam'
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
     metrics = ['accuracy']
 
@@ -21,7 +20,7 @@ class ModelTrainer:
     def __init__(self):
         self.trainerConfig = ModelTrainerConfig()
     
-    def initiateTraining(self, batchSize, EPOCHS):
+    def initiateTraining(self, batchSize, EPOCHS, optimizer):
         try:
             # Loading the splitted data
             transformer = DataTransformation()
@@ -36,7 +35,7 @@ class ModelTrainer:
             os.makedirs(logDir, exist_ok=True)
 
             model.compile(
-                optimizer=self.trainerConfig.optimizer,
+                optimizer=optimizer,
                 loss=self.trainerConfig.loss,
                 metrics=self.trainerConfig.metrics
             )
@@ -45,22 +44,28 @@ class ModelTrainer:
             hist = model.fit(train, epochs=EPOCHS, batch_size=batchSize, validation_data=val, callbacks=[tensorboardCallback])
 
             # Saving the model as .h5 to ensure it can be reused across different runtimes.
-            model.save('artifacts/trained_model.h5')
+            # model.save('artifacts/trained_model.h5')
             # logger.info('Saved Trained Model')
 
-            y_true, y_pred = getPredictions(model, test)
+            y_true, y_pred = getPredictions(model, test, batchSize)
             metrics = getMetrics(y_true, y_pred)
             accuracy, precision, recall, f1 = metrics['Accuracy'], metrics['Precision'], metrics['Recall'], metrics['F1 Score']
-            logger.info(f'''The model gives the following metrics on the test dataset: 
-                        Accuracy: {accuracy}
-                        Precision: {precision}
-                        Recall: {recall}
-                        F1 Score: {f1}
-                        ''')
+
+            pred = model.predict(test)
+            
+            return (
+                model,
+                accuracy,
+                precision,
+                recall,
+                f1,
+                test.as_numpy_iterator().next()[0],   # This will be used to create model signature during experiment tracking.
+                pred
+            )
         
         except Exception as e:
             raise customException(e, sys)
 
 if __name__=="__main__":
     trainer = ModelTrainer()
-    trainer.initiateTraining(batchSize=16, EPOCHS=20)
+    trainer.initiateTraining(batchSize=16, EPOCHS=20, optimizer='adam')
