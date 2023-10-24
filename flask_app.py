@@ -4,7 +4,7 @@ from src.utils import loadObject
 from src import logger
 
 model = loadObject('artifacts/MLFlow_model.pkl')
-logger.info('Loaded Model')
+logger.info('Loaded the model')
 
 app = Flask(__name__)
 
