@@ -14,6 +14,7 @@ with leftCol:
     st.markdown('This AI model analyzes **Peripheral Blood Smear (PBS)** images to detect and classify 4 stages of **Acute Lymphoblastic Leukemia** - **Benign (Normal Stage)**, **Malignant Early**, **Malignant Pre**, and **Malignant Pro** stages.')
     st.write('Upload a PBS image and click on the "Predict" button to get predictions.')
 
+    st.warning('The prediction will take a few seconds for the first time as the model is being loaded.')
 with rightCol:
     try:
         file = st.file_uploader(label='Upload a PBS image')
