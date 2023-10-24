@@ -10,7 +10,7 @@ classNames = ['Benign', 'Early', 'Pre', 'Pro']
 
 @dataclass()
 class PredictionConfig:
-    modelPath = os.path.join('artifacts/MLFlow_model.pkl')
+    modelPath = os.path.join('model/MLFlow_model.pkl')
 
 class imageFile:
     def __init__(self, file):
