@@ -16,23 +16,23 @@ with leftCol:
 
     st.warning('The prediction will take a few seconds for the first time as the model is being loaded.')
 with rightCol:
-    try:
-        file = st.file_uploader(label='Upload a PBS image')
-        if file:
-            predButton = st.button('Predict')
-            st.image(file, width=224)
-            
-            if predButton:
-                imgObj = imageFile(file)
-                arr = imgObj.getArr()
+    # try:
+    file = st.file_uploader(label='Upload a PBS image')
+    if file:
+        predButton = st.button('Predict')
+        st.image(file, width=224)
+        
+        if predButton:
+            imgObj = imageFile(file)
+            arr = imgObj.getArr()
 
-                predict = PredictionPipeline()
-                className, confidence = predict.predict(arr)
+            predict = PredictionPipeline()
+            className, confidence = predict.predict(arr)
 
-                st.markdown(f'''
-                            * Class Name: **{className}**
-                            * Confidence: **{confidence} %**
-                            ''')
+            st.markdown(f'''
+                        * Class Name: **{className}**
+                        * Confidence: **{confidence} %**
+                        ''')
     
-    except:
-        st.warning('Oops! An error occured. Please upload a valid image file.')
+    # except:
+    #     st.warning('Oops! An error occured. Please upload a valid image file.')
