@@ -41,9 +41,6 @@ mlruns
 # Model logs
 Model logs
 
-# Flask app
-flask.py
-
 # Research folder
 research
 
