@@ -1,43 +1,37 @@
-from flask import Flask, request
-import numpy as np
-import tensorflow as tf
-from tensorflow import keras
-from keras.utils import img_to_array
-import requests
-from PIL import Image
-from io import BytesIO
-from src.utils import loadObject
+import streamlit as st
+from src.pipeline.prediction import PredictionPipeline, imageFile
 
-model = tf.keras.models.load_model('artifacts/trained_model.h5')
+st.set_page_config(page_title='Blood Cancer Detection', page_icon=':drop_of_blood:', layout='wide')
 
-app = Flask(__name__)
+with st.container():
+    # st.title('🩸 Blood Cancer Detection')
+    st.markdown("<h1 style='text-align: center; color: black;'>🩸 Blood Cancer Detection</h2>", unsafe_allow_html=True)
+    st.write('---')
 
-@app.route('/')
-def homepage():
-    return 'Arham Islam'
+leftCol, rightCol = st.columns(2)
 
-@app.route('/predict', methods=['POST'])
-def predict():
+with leftCol:
+    st.markdown('This AI model analyzes **Peripheral Blood Smear (PBS)** images to detect and classify 4 stages of **Acute Lymphoblastic Leukemia** - **Benign (Normal Stage)**, **Malignant Early**, **Malignant Pre**, and **Malignant Pro** stages.')
+    st.write('Upload a PBS image and click on the "Predict" button to get predictions.')
+
+with rightCol:
+    try:
+        file = st.file_uploader(label='Upload a PBS image')
+        if file:
+            predButton = st.button('Predict')
+            st.image(file, width=224)
+            
+            if predButton:
+                imgObj = imageFile(file)
+                arr = imgObj.getArr()
+
+                predict = PredictionPipeline()
+                className, confidence = predict.predict(arr)
+
+                st.markdown(f'''
+                            * Class Name: **{className}**
+                            * Confidence: **{confidence} %**
+                            ''')
     
-    image = request.files['file'].stream
-    pil_image = Image.open(image)
-    resizedImg = pil_image.resize((224, 224))
-    
-    arr = np.array(resizedImg)
-    # arr = arr / 255.0
-    batchedImg = np.expand_dims(arr, 0)
-    prediction = model.predict(batchedImg)[0]
-    classNames = ['Benign', 'Early', 'Pre', 'Pro']
-    pos = np.argmax(prediction)
-    # image = image/255.0
-    # img = Image.open(image)
-    # img = img.resize((224, 224))
-    # img = img_to_array(img)/255.0
-    # img = img.reshape(1, 224, 224, 3)
-    return {
-        'Class': classNames[pos],
-        'Confidence': round(prediction[pos]*100, 1)
-    }
-
-if __name__=="__main__":
-    app.run(host='0.0.0.0', debug=True)
+    except:
+        st.warning('Oops! An error occured. Please upload a valid image file.')

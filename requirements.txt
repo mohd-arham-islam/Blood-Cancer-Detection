@@ -13,4 +13,5 @@ python-box
 ensure
 boto3  # To connect to S3 bucket
 python-dotenv
+streamlit
 -e .

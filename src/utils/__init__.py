@@ -73,3 +73,4 @@ def getBatchSize(data):
         )
     except Exception as e:
         raise customException(e, sys)
+    
