@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from dataclasses import dataclass
 from src.utils import loadObject
+import mlflow
 
 classNames = ['Benign', 'Early', 'Pre', 'Pro']
 
@@ -33,8 +34,7 @@ class PredictionPipeline:
         pass
 
     def predict(self, arr, model):
-        # modelPath = self.predictionConfig.modelPath
-        # model = loadObject(filePath=modelPath)
+        
         # logger.info('Loaded Model')
 
         batchedImg = np.expand_dims(arr, 0)
