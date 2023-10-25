@@ -42,3 +42,40 @@ The model with batch size **64** and optimizer **adam** gave the best performanc
 
 ### Model Predictions
 ![Model Prediction](predictions.png)
+
+## Streamlit App
+Instead of using an HTML+CSS Frontend, I used a simple Streamlit application to serve the model. The app asks the user to upload a PBS image, and when the "Predict" button is clicked, it gives the predicted class name along with the confidence level. Following is a screenshot of the app.
+
+![Streamlit App]('Screenshot 2023-10-24 190828.png')
+
+## Flask App
+I also created a flask app to serve the model as an API. Upon getting an image file as an input, the API returns the class name and the confidence level. I will integrate this API with the frontend in the future.
+Following is a screenshot of the API request sent using Postman.
+
+![Flask App](Screenshot 2023-10-24 165935.png)
+
+## Model Deployment
+I deployed the application using an **AWS ECR** and an **AWS EC2** instance within a **CI/CD** pipeline, following these key steps:
+
+* **Dockerfile Creation:** I started by creating a **Dockerfile** for the application, which defines how the application should be packaged and executed within a container.
+
+* **ECR Repository:** Next, I established an **Amazon Web Services Elastic Container Registry** (ECR) repository to store the Docker images of the application.
+
+* **EC2 Instance Configuration:** To support the application, I configured an **EC2** instance with 8GB of RAM, ensuring it meets the necessary resource requirements.
+
+* **GitHub Self-Hosted Runner:** To automate the deployment process, I set up a **GitHub Self-Hosted Runner** on the EC2 instance, establishing a direct connection between the instance and the GitHub repository.
+
+* **Continuous Integration:** Any new commits trigger the **CI/CD** pipeline. During the **Continuous Integration** phase, the latest code is pulled from the repository, ensuring it's readily available for subsequent stages.
+
+* **Continuous Delivery:** In the **Continuous Delivery** phase, the Docker image is built and pushed to the ECR repository, making it accessible for deployment.
+
+* **Continuous Deployment:** Finally, in the **Continuous Deployment** phase, the latest image is pulled from the ECR repository and executed to serve the application.
+
+This streamlined pipeline ensures that any code changes are automatically built and deployed, facilitating a reliable and efficient deployment process.
+
+### CI/CD Pipeline
+![Alt text](image-3.png)
+
+## Conclusion
+In this project, I've harnessed advanced machine learning techniques to develop a robust Acute Lymphoblastic Leukemia (ALL) detection model. Leveraging Transfer Learning and extensive experimentation with MLflow, the model demonstrates exceptional accuracy. User-friendly interfaces, including a Streamlit application and a Flask API, enhance accessibility, while a well-structured deployment pipeline via AWS ECR and EC2 ensures efficient and reliable model deployment. This project's focus on healthcare applications underlines its commitment to advancing medical science and patient care.
+
