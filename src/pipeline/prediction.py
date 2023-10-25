@@ -8,9 +8,9 @@ from src.utils import loadObject
 
 classNames = ['Benign', 'Early', 'Pre', 'Pro']
 
-@dataclass()
-class PredictionConfig:
-    modelPath = os.path.join('model/MLFlow_model.pkl')
+# @dataclass()
+# class PredictionConfig:
+#     runID = os.path.join('model/MLFlow_model.pkl')
 
 class imageFile:
     def __init__(self, file):
@@ -29,12 +29,13 @@ class imageFile:
         
 class PredictionPipeline:
     def __init__(self):
-        self.predictionConfig = PredictionConfig()
+        # self.predictionConfig = PredictionConfig()
+        pass
 
-    def predict(self, arr):
-        modelPath = self.predictionConfig.modelPath
-        model = loadObject(filePath=modelPath)
-        logger.info('Loaded Model')
+    def predict(self, arr, model):
+        # modelPath = self.predictionConfig.modelPath
+        # model = loadObject(filePath=modelPath)
+        # logger.info('Loaded Model')
 
         batchedImg = np.expand_dims(arr, 0)
         batchedImg = batchedImg.astype('float32')
