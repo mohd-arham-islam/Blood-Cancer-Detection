@@ -55,7 +55,7 @@ The model with batch size **64** and optimizer **adam** gave the best performanc
 ## Streamlit App
 Instead of using an HTML+CSS Frontend, I used a simple Streamlit application to serve the model. The app asks the user to upload a PBS image, and when the "Predict" button is clicked, it gives the predicted class name along with the confidence level. Following is a screenshot of the app.
 
-![image](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/5b1425cb-92a7-43f5-b3e3-0ec18aae7e6c)
+![image](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/8262df3d-9389-4871-91e3-74f30daa2497)
 
 
 ## Flask App
