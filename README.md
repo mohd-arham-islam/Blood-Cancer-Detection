@@ -14,18 +14,27 @@ Link to the dataset: https://www.kaggle.com/datasets/mehradaria/leukemia
 ## Data Ingestion
 To make the project a bit more challenging, I first uploaded the images to an AWS S3 bucket, and then wrote a python script to pull the files. I used the `boto3` library to create an S3 client and used its `download_file` function to download the images individually and stored them in separate folders.
 
-![Data Ingestion pipeline](image.png)
+![Screenshot 2023-10-25 121330](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/9a6b6686-c629-4e60-affe-c3efe0784100)
+
 
 ## Model Architecture
 I employed **Transfer Learning** technique in this project by using the weights of the pre-trained **VGG-16** model. I then added a Global Max Pooling Layer to flatten the outputs of the VGG model. On top of that, I added a few more dense layers to get the final model, which has **14,888,380** non-trainable parameters and **173,692** trainable ones. I also used a dropout layer to avoid overfitting.
 
-![Model Architecture](image1.png)
+![image1](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/8b4be610-1476-49e0-9233-8f329df6f030)
+
 
 ## Model Training & Experiment Tracking
 **MLFlow** is an open-source library that allows developers to conduct experiments with their model. I used different sets of optimizer - **adam**, **sgd**, and **rmsprop**. I also tried different batch sizes (16, 32, and 64). I connected **MLFlow** with **DagsHub** which provides a repository to store the experiement results, thereby facilitating collaboration. Different developers working on the same project can try out different parameters, and the results would be accessible to each group member. **MLFlow** has the option to visualize the different metrics based on the parameters, which makes comparison all the more easier.
 
 **MLFlow** also provides model versioning and the option to directly load and use the model just by adding a couple of lines of code.
 
+### DagsHub UI
+![image-1](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/4690b29a-0051-46ab-b89c-998693468f0a)
+
+### Comparing different parameters
+![image-2](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/df9c1226-daf8-4b06-9afb-55e268ef7866)
+
+## Model Metrics
 The model with batch size **64** and optimizer **adam** gave the best performance among all the different settings. I was able to achieve the following metrics (average of all 4 classes) on the test dataset:
 
 * Accuracy: **0.982**
@@ -33,26 +42,26 @@ The model with batch size **64** and optimizer **adam** gave the best performanc
 * Recall: **0.972**
 * F1 score: **0.976**
 
-
-![DagsHub UI](image-1.png)
-![Batch Size Comparison](image-2.png)
-
 ### Confusion Matrix
-![Confusion Matrix](confusion_matrix.png)
+![confusion_matrix](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/1058fdc5-b7ff-4987-9d1c-e0f193833af6)
+
 
 ### Model Predictions
-![Model Prediction](predictions.png)
+![predictions](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/c68cb12c-7685-4d89-b10d-ffd8358ec013)
+
 
 ## Streamlit App
 Instead of using an HTML+CSS Frontend, I used a simple Streamlit application to serve the model. The app asks the user to upload a PBS image, and when the "Predict" button is clicked, it gives the predicted class name along with the confidence level. Following is a screenshot of the app.
 
-![Streamlit App]('Screenshot 2023-10-24 190828.png')
+![Screenshot 2023-10-24 190828](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/63d88e3f-6ffc-48f3-b19b-52b97a37332c)
+
 
 ## Flask App
 I also created a flask app to serve the model as an API. Upon getting an image file as an input, the API returns the class name and the confidence level. I will integrate this API with the frontend in the future.
 Following is a screenshot of the API request sent using Postman.
 
-![Flask App](Screenshot 2023-10-24 165935.png)
+![Screenshot 2023-10-24 165935](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/fd698b31-8ea9-41a7-a50b-9015b3afae50)
+
 
 ## Model Deployment
 I deployed the application using an **AWS ECR** and an **AWS EC2** instance within a **CI/CD** pipeline, following these key steps:
@@ -74,8 +83,8 @@ I deployed the application using an **AWS ECR** and an **AWS EC2** instance with
 This streamlined pipeline ensures that any code changes are automatically built and deployed, facilitating a reliable and efficient deployment process.
 
 ### CI/CD Pipeline
-![Alt text](image-3.png)
+![image](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/b9a47022-a200-4235-a0f7-bd1b8a87e8d8)
+
 
 ## Conclusion
 In this project, I've harnessed advanced machine learning techniques to develop a robust Acute Lymphoblastic Leukemia (ALL) detection model. Leveraging Transfer Learning and extensive experimentation with MLflow, the model demonstrates exceptional accuracy. User-friendly interfaces, including a Streamlit application and a Flask API, enhance accessibility, while a well-structured deployment pipeline via AWS ECR and EC2 ensures efficient and reliable model deployment. This project's focus on healthcare applications underlines its commitment to advancing medical science and patient care.
-
