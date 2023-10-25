@@ -1,4 +1,6 @@
 # Analyzing Peripheral Blood Smear (PBS) images to detect Acute Lymphoblastic Leukemia
+![image](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/0cf587e6-79dd-43cc-9bb7-b695c0753574)
+
 ## Introduction
 Acute lymphoblastic leukemia (ALL) is a type of cancer that affects the blood and bone marrow. It is characterized by the overproduction of immature white blood cells called lymphoblasts. ALL is the most common childhood cancer. It occurs when a bone marrow cell develops errors in its DNA.
 
