@@ -1,9 +1,5 @@
 import streamlit as st
 from src.pipeline.prediction import PredictionPipeline, imageFile
-import mlflow
-
-logged_model = 'runs:/9ed4cb2816364d89bb17f72cf315cf27/cnn'
-model = mlflow.pyfunc.load_model(logged_model)
 
 st.set_page_config(page_title='Blood Cancer Detection', page_icon=':drop_of_blood:', layout='wide')
 
@@ -31,12 +27,13 @@ with rightCol:
                 arr = imgObj.getArr()
 
                 predict = PredictionPipeline()
-                className, confidence = predict.predict(arr, model)
+                className, confidence = predict.predict(arr)
 
                 st.markdown(f'''
-                            * Class Name: **{className}**
-                            * Confidence: **{confidence} %**
+                            ##### * Class Name: {className}
+                            ##### * Confidence: {confidence}% 
                             ''')
-    
+
+        
     except:
         st.warning('Oops! An error occured. Please upload a valid image file.')
