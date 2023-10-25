@@ -4,7 +4,7 @@ import mlflow
 from dotenv import load_dotenv
 
 load_dotenv()
-model = mlflow.pyfunc.load_model('runs:/4dad99af7e0f4e16b3813e880fe511d5/cnn')
+model = mlflow.pyfunc.load_model('runs:/9ed4cb2816364d89bb17f72cf315cf27/cnn')
 
 st.set_page_config(page_title='Blood Cancer Detection', page_icon=':drop_of_blood:', layout='wide')
 
