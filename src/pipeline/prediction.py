@@ -9,9 +9,9 @@ import mlflow
 
 classNames = ['Benign', 'Early', 'Pre', 'Pro']
 
-# @dataclass()
-# class PredictionConfig:
-#     runID = os.path.join('model/MLFlow_model.pkl')
+@dataclass()
+class PredictionConfig:
+    modelPath = os.path.join('model/MLFlow_model.pkl')
 
 class imageFile:
     def __init__(self, file):
@@ -30,12 +30,13 @@ class imageFile:
         
 class PredictionPipeline:
     def __init__(self):
-        # self.predictionConfig = PredictionConfig()
-        pass
+        self.predictionConfig = PredictionConfig()
 
-    def predict(self, arr, model):
+    def predict(self, arr):
         
-        # logger.info('Loaded Model')
+        modelPath = self.predictionConfig.modelPath
+        model = loadObject(modelPath)
+        logger.info('Loaded Model')
 
         batchedImg = np.expand_dims(arr, 0)
         batchedImg = batchedImg.astype('float32')
