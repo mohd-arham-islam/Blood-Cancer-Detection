@@ -2,7 +2,7 @@
 ![image](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/0cf587e6-79dd-43cc-9bb7-b695c0753574)
 
 ## Introduction
-Acute lymphoblastic leukemia (ALL) is a type of cancer that affects the blood and bone marrow. It is characterized by the overproduction of immature white blood cells called lymphoblasts. ALL is the most common childhood cancer. It occurs when a bone marrow cell develops errors in its DNA.
+**Acute lymphoblastic leukemia** (ALL) is a type of cancer that affects the blood and bone marrow. It is characterized by the overproduction of immature white blood cells called lymphoblasts. ALL is the most common childhood cancer. It occurs when a bone marrow cell develops errors in its DNA.
 
 This project analyzes **Peripheral Blood Smear** (PBS) images to to detect and classify 4 stages of **Acute Lymphoblastic Leukemia** - **Benign (Normal Stage)**, **Malignant Early**, **Malignant Pre**, and **Malignant Pro** stages.
 
@@ -14,7 +14,7 @@ Link to the dataset: https://www.kaggle.com/datasets/mehradaria/leukemia
 
 
 ## Data Ingestion
-To make the project a bit more challenging, I first uploaded the images to an AWS S3 bucket, and then wrote a python script to pull the files. I used the `boto3` library to create an S3 client and used its `download_file` function to download the images individually and stored them in separate folders.
+To make the project a bit more challenging, I first uploaded the images to an **AWS S3** bucket, and then wrote a python script to pull the files. I used the `boto3` library to create an S3 client and used its `download_file` function to download the images individually and stored them in separate folders.
 
 ![Screenshot 2023-10-25 121330](https://github.com/mohd-arham-islam/Blood-Cancer-Detection/assets/111959286/9a6b6686-c629-4e60-affe-c3efe0784100)
 
